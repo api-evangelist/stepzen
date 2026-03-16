@@ -1,0 +1,41 @@
+aid: stepzen
+name: StepZen
+description: >-
+  StepZen (now part of IBM) provides a GraphQL API platform that enables
+  developers to build, deploy, and manage GraphQL APIs that connect to
+  multiple backends including REST APIs, databases, and other data sources.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - GraphQL
+  - API
+  - Backend Integration
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/stepzen/refs/heads/main/apis.yml
+created: '2026-03-16'
+modified: '2026-03-16'
+specificationVersion: '0.19'
+apis:
+  - aid: stepzen:stepzen-api
+    name: StepZen GraphQL API
+    description: >-
+      GraphQL API platform for connecting to REST, databases, and other
+      backends, automatically generating a GraphQL schema and resolvers
+      from your data sources.
+    humanURL: https://stepzen.com/
+    tags:
+      - GraphQL
+      - API Integration
+    properties:
+      - type: Documentation
+        url: https://stepzen.com/docs
+common:
+  - type: Portal
+    url: https://stepzen.com/
+  - type: Documentation
+    url: https://stepzen.com/docs
+  - type: Website
+    url: https://stepzen.com/
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
