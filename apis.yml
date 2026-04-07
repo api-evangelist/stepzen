@@ -7,9 +7,8 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - GraphQL
-  - API
   - Backend Integration
+  - GraphQL
 url: >-
   https://raw.githubusercontent.com/api-evangelist/stepzen/refs/heads/main/apis.yml
 created: '2026-03-16'
@@ -24,8 +23,8 @@ apis:
       from your data sources.
     humanURL: https://stepzen.com/
     tags:
-      - GraphQL
       - API Integration
+      - GraphQL
     properties:
       - type: Documentation
         url: https://stepzen.com/docs
