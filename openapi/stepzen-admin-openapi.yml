@@ -1,0 +1,319 @@
+openapi: 3.0.3
+info:
+  title: StepZen Admin API
+  description: >-
+    The StepZen Admin REST API provides programmatic access to manage your
+    StepZen account, deployed GraphQL endpoints, API keys, schemas, and
+    usage metrics. Endpoints are available at the StepZen management plane.
+  version: '1.0'
+  contact:
+    name: StepZen Support
+    url: https://stepzen.com/docs
+  license:
+    name: Proprietary
+    url: https://stepzen.com/terms
+servers:
+  - url: https://dashboard.ibm.stepzen.com/api/v1
+    description: StepZen Admin API
+security:
+  - apiKeyAuth: []
+tags:
+  - name: Endpoints
+    description: Manage deployed GraphQL API endpoints
+  - name: Schemas
+    description: Manage GraphQL schema configurations
+  - name: API Keys
+    description: Manage API keys for endpoint access
+  - name: Account
+    description: Account information and settings
+paths:
+  /endpoints:
+    get:
+      operationId: listEndpoints
+      summary: List Endpoints
+      description: List all deployed GraphQL API endpoints in the account.
+      tags:
+        - Endpoints
+      responses:
+        '200':
+          description: List of deployed endpoints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndpointsListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createEndpoint
+      summary: Create Endpoint
+      description: Deploy a new GraphQL API endpoint from a schema configuration.
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEndpointRequest'
+      responses:
+        '201':
+          description: Endpoint created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Endpoint'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /endpoints/{endpointId}:
+    get:
+      operationId: getEndpoint
+      summary: Get Endpoint
+      description: Retrieve details of a specific deployed endpoint.
+      tags:
+        - Endpoints
+      parameters:
+        - $ref: '#/components/parameters/EndpointId'
+      responses:
+        '200':
+          description: Endpoint details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Endpoint'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteEndpoint
+      summary: Delete Endpoint
+      description: Delete a deployed GraphQL endpoint.
+      tags:
+        - Endpoints
+      parameters:
+        - $ref: '#/components/parameters/EndpointId'
+      responses:
+        '204':
+          description: Endpoint deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api-keys:
+    get:
+      operationId: listApiKeys
+      summary: List API Keys
+      description: List all API keys in the account.
+      tags:
+        - API Keys
+      responses:
+        '200':
+          description: List of API keys
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeysListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createApiKey
+      summary: Create API Key
+      description: Create a new API key for accessing GraphQL endpoints.
+      tags:
+        - API Keys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyRequest'
+      responses:
+        '201':
+          description: API key created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api-keys/{keyId}:
+    delete:
+      operationId: deleteApiKey
+      summary: Delete API Key
+      description: Delete an API key.
+      tags:
+        - API Keys
+      parameters:
+        - $ref: '#/components/parameters/KeyId'
+      responses:
+        '204':
+          description: API key deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /account:
+    get:
+      operationId: getAccount
+      summary: Get Account
+      description: Retrieve account information and usage statistics.
+      tags:
+        - Account
+      responses:
+        '200':
+          description: Account information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: StepZen API key as Bearer token
+  parameters:
+    EndpointId:
+      name: endpointId
+      in: path
+      required: true
+      description: Unique endpoint identifier
+      schema:
+        type: string
+    KeyId:
+      name: keyId
+      in: path
+      required: true
+      description: Unique API key identifier
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    Endpoint:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique endpoint identifier
+        name:
+          type: string
+          description: Endpoint name
+        url:
+          type: string
+          description: GraphQL endpoint URL
+        folder:
+          type: string
+          description: Account folder containing the schema
+        status:
+          type: string
+          enum: [active, deploying, error]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    EndpointsListResponse:
+      type: object
+      properties:
+        endpoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/Endpoint'
+        total:
+          type: integer
+    CreateEndpointRequest:
+      type: object
+      required:
+        - name
+        - folder
+      properties:
+        name:
+          type: string
+          description: Endpoint name
+        folder:
+          type: string
+          description: Schema folder name
+        schema:
+          type: string
+          description: GraphQL SDL schema definition
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        key:
+          type: string
+          description: The API key value (only shown on creation)
+        type:
+          type: string
+          enum: [admin, user]
+        createdAt:
+          type: string
+          format: date-time
+    ApiKeysListResponse:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'
+    CreateApiKeyRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Descriptive name for the API key
+        type:
+          type: string
+          enum: [admin, user]
+          default: user
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        plan:
+          type: string
+        endpointCount:
+          type: integer
+        requestsThisMonth:
+          type: integer

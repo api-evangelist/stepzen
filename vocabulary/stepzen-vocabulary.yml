@@ -1,0 +1,114 @@
+vocabulary:
+  name: StepZen Vocabulary
+  description: >-
+    Domain vocabulary for the StepZen (IBM API Connect Essentials) GraphQL-as-a-Service
+    platform, covering GraphQL schema directives, backend connectivity, and
+    API lifecycle management concepts.
+  version: '1.0'
+  created: '2026-05-02'
+  modified: '2026-05-02'
+
+terms:
+  - term: GraphQL Endpoint
+    definition: >-
+      A deployed StepZen API accessible at a URL in the format
+      {account}.stepzen.net/{folder}/{name}/__graphql that accepts
+      GraphQL queries, mutations, and subscriptions.
+    category: Core
+
+  - term: "@rest Directive"
+    definition: >-
+      A StepZen GraphQL SDL directive that connects a field resolver to a
+      REST/HTTP backend, specifying the endpoint URL, HTTP method, and
+      request/response mapping.
+    category: Directives
+
+  - term: "@dbquery Directive"
+    definition: >-
+      A StepZen GraphQL SDL directive that connects a field resolver to a
+      SQL or NoSQL database query, enabling direct database-to-GraphQL mapping.
+    category: Directives
+
+  - term: "@connector Directive"
+    definition: >-
+      A StepZen GraphQL SDL directive for connecting to external services
+      including SOAP/WSDL and custom integrations.
+    category: Directives
+
+  - term: "@sequence Directive"
+    definition: >-
+      A StepZen directive that chains multiple operations sequentially,
+      passing the output of one operation as input to the next.
+    category: Directives
+
+  - term: Schema Folder
+    definition: >-
+      A local directory containing the GraphQL SDL files (.graphql) that
+      define a StepZen endpoint's type system, resolvers, and configuration.
+    category: Development
+
+  - term: stepzen deploy
+    definition: >-
+      The CLI command that uploads and deploys the local schema folder as
+      a live GraphQL endpoint on the StepZen platform.
+    category: CLI
+
+  - term: stepzen start
+    definition: >-
+      The CLI command that deploys a schema and returns the GraphQL endpoint
+      URL, also starting the built-in Schema Explorer for local testing.
+    category: CLI
+
+  - term: stepzen import
+    definition: >-
+      A CLI command family for auto-generating GraphQL schemas from existing
+      backends: import curl (REST), import graphql, import mysql, import postgresql.
+    category: CLI
+
+  - term: Data Federation
+    definition: >-
+      The ability to combine data from multiple heterogeneous sources (REST,
+      SQL, NoSQL, GraphQL) into a single unified GraphQL schema with
+      cross-source relationships.
+    category: Architecture
+
+  - term: Declarative Schema
+    definition: >-
+      StepZen's approach to API definition where developers write GraphQL SDL
+      with directives rather than imperative resolver code, and StepZen
+      generates and optimizes the underlying implementation.
+    category: Architecture
+
+  - term: Query Planning
+    definition: >-
+      StepZen's runtime optimization that analyzes incoming GraphQL queries
+      and determines the most efficient execution plan across multiple
+      backend data sources.
+    category: Architecture
+
+  - term: Admin API Key
+    definition: >-
+      A StepZen credential with admin privileges for managing endpoints,
+      schemas, and account settings via the Admin API.
+    category: Authentication
+
+  - term: User API Key
+    definition: >-
+      A StepZen credential for querying deployed GraphQL endpoints, provided
+      in the Authorization header as a Bearer token.
+    category: Authentication
+
+  - term: IBM API Connect Essentials
+    definition: >-
+      The IBM product name for StepZen following the 2023 acquisition,
+      available on AWS Marketplace and as an on-premise deployment.
+    category: Platform
+
+categories:
+  - Core
+  - Directives
+  - Development
+  - CLI
+  - Architecture
+  - Authentication
+  - Platform

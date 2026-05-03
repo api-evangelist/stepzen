@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/api-evangelist/stepzen/blob/main/json-schema/stepzen-endpoint-schema.json",
+  "title": "StepZen Endpoint",
+  "description": "Schema for a deployed StepZen GraphQL API endpoint",
+  "type": "object",
+  "required": ["id", "name", "url"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique endpoint identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Endpoint name used in the URL path"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Full GraphQL endpoint URL"
+    },
+    "folder": {
+      "type": "string",
+      "description": "Account folder containing the schema files"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "deploying", "error"],
+      "description": "Deployment status of the endpoint"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 creation timestamp"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 last update timestamp"
+    }
+  },
+  "additionalProperties": false
+}

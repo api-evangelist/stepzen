@@ -1,0 +1,206 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "StepZen GraphQL API Management"
+  description: >-
+    GraphQL API lifecycle management workflow for StepZen/IBM API Connect.
+    Covers deploying GraphQL APIs from REST, database, and GraphQL backends,
+    managing endpoints, rotating API keys, and monitoring account usage.
+    Designed for platform engineers and API developers building data federation
+    layers.
+  tags:
+    - StepZen
+    - GraphQL
+    - API Management
+    - IBM
+    - Data Federation
+    - REST to GraphQL
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      STEPZEN_ADMIN_KEY: STEPZEN_ADMIN_KEY
+
+capability:
+  consumes:
+    - import: stepzen-admin
+      location: ./shared/stepzen-admin.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: graphql-api-management-api
+      description: "Unified REST API for StepZen GraphQL endpoint lifecycle management."
+      resources:
+        - path: /v1/endpoints
+          name: endpoints
+          description: GraphQL endpoint deployment and management
+          operations:
+            - method: GET
+              name: list-endpoints
+              description: List all deployed GraphQL API endpoints
+              call: "stepzen-admin.list-endpoints"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-endpoint
+              description: Deploy a new GraphQL API endpoint
+              call: "stepzen-admin.create-endpoint"
+              with:
+                name: "rest.name"
+                folder: "rest.folder"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/endpoints/{id}
+          name: endpoint
+          description: Individual endpoint operations
+          operations:
+            - method: GET
+              name: get-endpoint
+              description: Get details of a specific endpoint
+              call: "stepzen-admin.get-endpoint"
+              with:
+                endpointId: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: DELETE
+              name: delete-endpoint
+              description: Delete a deployed GraphQL endpoint
+              call: "stepzen-admin.delete-endpoint"
+              with:
+                endpointId: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/api-keys
+          name: api-keys
+          description: API key management
+          operations:
+            - method: GET
+              name: list-api-keys
+              description: List all API keys
+              call: "stepzen-admin.list-api-keys"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-api-key
+              description: Create a new API key for endpoint access
+              call: "stepzen-admin.create-api-key"
+              with:
+                name: "rest.name"
+                type: "rest.type"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/account
+          name: account
+          description: Account information and usage
+          operations:
+            - method: GET
+              name: get-account
+              description: Retrieve account details and monthly usage statistics
+              call: "stepzen-admin.get-account"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: graphql-api-management-mcp
+      transport: http
+      description: "MCP server for AI-assisted StepZen GraphQL API lifecycle management."
+      tools:
+        - name: list-endpoints
+          description: >-
+            List all deployed StepZen GraphQL API endpoints in the account.
+            Use to see what APIs are currently deployed and their status.
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "stepzen-admin.list-endpoints"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-endpoint
+          description: >-
+            Get details of a specific StepZen GraphQL endpoint including URL,
+            status, and configuration.
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "stepzen-admin.get-endpoint"
+          with:
+            endpointId: "tools.endpointId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-endpoint
+          description: >-
+            Deploy a new StepZen GraphQL endpoint from a schema folder.
+            Use to publish a new GraphQL API making it accessible to clients.
+          hints:
+            readOnly: false
+            destructive: false
+          call: "stepzen-admin.create-endpoint"
+          with:
+            name: "tools.name"
+            folder: "tools.folder"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: delete-endpoint
+          description: >-
+            Delete a deployed StepZen GraphQL endpoint. This removes the
+            endpoint and makes it inaccessible to clients.
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "stepzen-admin.delete-endpoint"
+          with:
+            endpointId: "tools.endpointId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-api-keys
+          description: >-
+            List all API keys in the StepZen account. Keys are used to
+            authenticate requests to deployed GraphQL endpoints.
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "stepzen-admin.list-api-keys"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-api-key
+          description: >-
+            Create a new API key for accessing StepZen GraphQL endpoints.
+            Specify a descriptive name and key type (admin or user).
+          hints:
+            readOnly: false
+            destructive: false
+          call: "stepzen-admin.create-api-key"
+          with:
+            name: "tools.name"
+            type: "tools.type"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-account
+          description: >-
+            Retrieve StepZen account details including plan, endpoint count,
+            and API request usage statistics for the current month.
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "stepzen-admin.get-account"
+          outputParameters:
+            - type: object
+              mapping: "$."

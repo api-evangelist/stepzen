@@ -1,0 +1,50 @@
+{
+  "title": "StepZen Endpoint Structure",
+  "description": "Field structure documentation for StepZen deployed GraphQL endpoint objects",
+  "type": "object",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string",
+      "required": true,
+      "description": "Unique endpoint identifier"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "description": "Endpoint name used in the GraphQL URL path"
+    },
+    {
+      "name": "url",
+      "type": "uri",
+      "required": true,
+      "description": "Full GraphQL endpoint URL for client queries"
+    },
+    {
+      "name": "folder",
+      "type": "string",
+      "required": false,
+      "description": "Account folder containing the schema files"
+    },
+    {
+      "name": "status",
+      "type": "enum",
+      "values": ["active", "deploying", "error"],
+      "required": false,
+      "description": "Current deployment lifecycle status"
+    },
+    {
+      "name": "createdAt",
+      "type": "datetime",
+      "required": false,
+      "description": "ISO 8601 creation timestamp"
+    },
+    {
+      "name": "updatedAt",
+      "type": "datetime",
+      "required": false,
+      "description": "ISO 8601 last modification timestamp"
+    }
+  ]
+}

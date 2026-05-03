@@ -1,0 +1,159 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "StepZen Admin API"
+  description: >-
+    StepZen Admin REST API for managing deployed GraphQL endpoints, API keys,
+    and account information on the StepZen/IBM API Connect platform.
+  tags:
+    - StepZen
+    - GraphQL
+    - API Management
+    - IBM
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      STEPZEN_ADMIN_KEY: STEPZEN_ADMIN_KEY
+
+capability:
+  consumes:
+    - type: http
+      namespace: stepzen-admin
+      baseUri: "https://dashboard.ibm.stepzen.com/api/v1"
+      description: "StepZen Admin API for managing GraphQL endpoints and API keys"
+      authentication:
+        type: bearer
+        token: "{{env.STEPZEN_ADMIN_KEY}}"
+      resources:
+        - name: endpoints
+          path: /endpoints
+          description: GraphQL endpoint management
+          operations:
+            - name: list-endpoints
+              method: GET
+              description: List all deployed GraphQL endpoints
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-endpoint
+              method: POST
+              description: Deploy a new GraphQL endpoint
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  folder: "{{tools.folder}}"
+
+        - name: endpoint
+          path: /endpoints/{endpointId}
+          description: Individual endpoint management
+          operations:
+            - name: get-endpoint
+              method: GET
+              description: Get details of a specific endpoint
+              inputParameters:
+                - name: endpointId
+                  in: path
+                  type: string
+                  required: true
+                  description: Endpoint identifier
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: delete-endpoint
+              method: DELETE
+              description: Delete a deployed endpoint
+              inputParameters:
+                - name: endpointId
+                  in: path
+                  type: string
+                  required: true
+                  description: Endpoint identifier
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: api-keys
+          path: /api-keys
+          description: API key management
+          operations:
+            - name: list-api-keys
+              method: GET
+              description: List all API keys
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-api-key
+              method: POST
+              description: Create a new API key
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  type: "{{tools.type}}"
+
+        - name: account
+          path: /account
+          description: Account information
+          operations:
+            - name: get-account
+              method: GET
+              description: Retrieve account details and usage statistics
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8100
+      namespace: stepzen-admin-api
+      resources:
+        - path: /v1/endpoints
+          name: endpoints
+          description: Endpoint management
+          operations:
+            - method: GET
+              name: list-endpoints
+              description: List GraphQL endpoints
+            - method: POST
+              name: create-endpoint
+              description: Deploy a new endpoint
+
+    - type: mcp
+      port: 9100
+      namespace: stepzen-admin-mcp
+      transport: http
+      tools:
+        - name: list-endpoints
+          description: List deployed StepZen GraphQL endpoints
+          hints:
+            readOnly: true
+            openWorld: true
+        - name: get-account
+          description: Get StepZen account information and usage stats
+          hints:
+            readOnly: true
+            openWorld: true
