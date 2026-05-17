@@ -41,11 +41,11 @@ apis:
     properties:
       - type: Documentation
         url: https://stepzen.com/docs
-      - type: GitHub Organization
+      - type: GitHubOrganization
         url: https://github.com/stepzen-dev
       - type: CLI Reference
         url: https://stepzen.com/docs/cli/cli-commands
-      - type: Getting Started
+      - type: GettingStarted
         url: https://stepzen.com/docs/quick-start/install-and-setup
       - type: IBM Documentation
         url: https://www.ibm.com/docs/en/stepzen
@@ -69,7 +69,7 @@ common:
     url: https://stepzen.com/docs
   - type: Website
     url: https://stepzen.com/
-  - type: GitHub Organization
+  - type: GitHubOrganization
     url: https://github.com/stepzen-dev
   - type: Dashboard
     url: https://dashboard.ibm.stepzen.com/
