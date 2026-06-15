@@ -1,10 +1,11 @@
 aid: stepzen
 name: StepZen
-description: StepZen (now IBM API Connect Essentials) is a GraphQL-as-a-Service platform that enables developers to build,
-  deploy, and manage GraphQL APIs by connecting to multiple backends including REST APIs, SQL databases, NoSQL databases,
-  GraphQL endpoints, and SOAP services. APIs are defined declaratively using GraphQL SDL with custom directives like @rest
-  and @dbquery. StepZen runs a high-performance in-memory Golang GraphQL engine deployed on Kubernetes, optimizing queries
-  at runtime for low latency and high throughput.
+description: >-
+  StepZen (now IBM API Connect Essentials) is a GraphQL-as-a-Service platform that enables developers to build, deploy,
+  and manage GraphQL APIs by connecting to multiple backends including REST APIs, SQL databases, NoSQL databases,
+  GraphQL endpoints, and SOAP services. APIs are defined declaratively using GraphQL SDL with custom directives like
+  @rest and @dbquery. StepZen runs a high-performance in-memory Golang GraphQL engine deployed on Kubernetes, optimizing
+  queries at runtime for low latency and high throughput.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
@@ -21,9 +22,10 @@ specificationVersion: '0.19'
 apis:
 - aid: stepzen:stepzen-api
   name: StepZen GraphQL API
-  description: GraphQL API platform for connecting to REST, databases, and other backends, automatically generating a GraphQL
-    schema and resolvers from your data sources. Supports authentication via API key, OAuth, and custom headers. Deployed
-    instances are accessible at account.stepzen.net endpoints.
+  description: >-
+    GraphQL API platform for connecting to REST, databases, and other backends, automatically generating a GraphQL
+    schema and resolvers from your data sources. Supports authentication via API key, OAuth, and custom headers.
+    Deployed instances are accessible at account.stepzen.net endpoints.
   humanURL: https://stepzen.com/
   baseURL: https://{account}.stepzen.net/{folder}/{name}/__graphql
   tags:
@@ -43,12 +45,8 @@ apis:
     url: https://stepzen.com/docs/quick-start/install-and-setup
   - type: IBM Documentation
     url: https://www.ibm.com/docs/en/stepzen
-  - type: NaftikoCapability
-    url: capabilities/admin-api-keys.yaml
-  - type: NaftikoCapability
-    url: capabilities/admin-account.yaml
-  - type: NaftikoCapability
-    url: capabilities/admin-endpoints.yaml
+  - url: graphql/stepzen-graphql.md
+    type: GraphQL
 - aid: stepzen:stepzen-admin-api
   name: StepZen Admin API
   description: REST API for managing StepZen accounts, deployed GraphQL endpoints, API keys, and usage metrics programmatically.
