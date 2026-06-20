@@ -7,7 +7,7 @@ description: >-
   @rest and @dbquery. StepZen runs a high-performance in-memory Golang GraphQL engine deployed on Kubernetes, optimizing
   queries at runtime for low latency and high throughput.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
 - Backend Integration
 - GraphQL
