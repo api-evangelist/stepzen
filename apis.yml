@@ -59,6 +59,10 @@ apis:
   - type: Documentation
     url: https://stepzen.com/docs
 common:
+- type: DomainSecurity
+  url: security/stepzen-domain-security.yml
+- type: Authentication
+  url: authentication/stepzen-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/stepzen
 - type: Portal
