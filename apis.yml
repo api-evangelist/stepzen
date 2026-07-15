@@ -59,6 +59,8 @@ apis:
   - type: Documentation
     url: https://stepzen.com/docs
 common:
+- type: AgenticAccess
+  url: agentic-access/stepzen-agentic-access.yml
 - type: DomainSecurity
   url: security/stepzen-domain-security.yml
 - type: Authentication
