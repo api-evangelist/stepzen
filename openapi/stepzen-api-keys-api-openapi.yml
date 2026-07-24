@@ -1,0 +1,148 @@
+openapi: 3.0.3
+info:
+  title: StepZen Admin Account API Keys API
+  description: The StepZen Admin REST API provides programmatic access to manage your StepZen account, deployed GraphQL endpoints, API keys, schemas, and usage metrics. Endpoints are available at the StepZen management plane.
+  version: '1.0'
+  contact:
+    name: StepZen Support
+    url: https://stepzen.com/docs
+  license:
+    name: Proprietary
+    url: https://stepzen.com/terms
+servers:
+- url: https://dashboard.ibm.stepzen.com/api/v1
+  description: StepZen Admin API
+security:
+- apiKeyAuth: []
+tags:
+- name: API Keys
+  description: Manage API keys for endpoint access
+paths:
+  /api-keys:
+    get:
+      operationId: listApiKeys
+      summary: List API Keys
+      description: List all API keys in the account.
+      tags:
+      - API Keys
+      responses:
+        '200':
+          description: List of API keys
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeysListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createApiKey
+      summary: Create API Key
+      description: Create a new API key for accessing GraphQL endpoints.
+      tags:
+      - API Keys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyRequest'
+      responses:
+        '201':
+          description: API key created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api-keys/{keyId}:
+    delete:
+      operationId: deleteApiKey
+      summary: Delete API Key
+      description: Delete an API key.
+      tags:
+      - API Keys
+      parameters:
+      - $ref: '#/components/parameters/KeyId'
+      responses:
+        '204':
+          description: API key deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    ApiKeysListResponse:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'
+    CreateApiKeyRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Descriptive name for the API key
+        type:
+          type: string
+          enum:
+          - admin
+          - user
+          default: user
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        key:
+          type: string
+          description: The API key value (only shown on creation)
+        type:
+          type: string
+          enum:
+          - admin
+          - user
+        createdAt:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    KeyId:
+      name: keyId
+      in: path
+      required: true
+      description: Unique API key identifier
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: StepZen API key as Bearer token

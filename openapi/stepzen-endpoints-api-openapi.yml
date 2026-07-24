@@ -1,0 +1,187 @@
+openapi: 3.0.3
+info:
+  title: StepZen Admin Account Endpoints API
+  description: The StepZen Admin REST API provides programmatic access to manage your StepZen account, deployed GraphQL endpoints, API keys, schemas, and usage metrics. Endpoints are available at the StepZen management plane.
+  version: '1.0'
+  contact:
+    name: StepZen Support
+    url: https://stepzen.com/docs
+  license:
+    name: Proprietary
+    url: https://stepzen.com/terms
+servers:
+- url: https://dashboard.ibm.stepzen.com/api/v1
+  description: StepZen Admin API
+security:
+- apiKeyAuth: []
+tags:
+- name: Endpoints
+  description: Manage deployed GraphQL API endpoints
+paths:
+  /endpoints:
+    get:
+      operationId: listEndpoints
+      summary: List Endpoints
+      description: List all deployed GraphQL API endpoints in the account.
+      tags:
+      - Endpoints
+      responses:
+        '200':
+          description: List of deployed endpoints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndpointsListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createEndpoint
+      summary: Create Endpoint
+      description: Deploy a new GraphQL API endpoint from a schema configuration.
+      tags:
+      - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEndpointRequest'
+      responses:
+        '201':
+          description: Endpoint created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Endpoint'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /endpoints/{endpointId}:
+    get:
+      operationId: getEndpoint
+      summary: Get Endpoint
+      description: Retrieve details of a specific deployed endpoint.
+      tags:
+      - Endpoints
+      parameters:
+      - $ref: '#/components/parameters/EndpointId'
+      responses:
+        '200':
+          description: Endpoint details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Endpoint'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteEndpoint
+      summary: Delete Endpoint
+      description: Delete a deployed GraphQL endpoint.
+      tags:
+      - Endpoints
+      parameters:
+      - $ref: '#/components/parameters/EndpointId'
+      responses:
+        '204':
+          description: Endpoint deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Endpoint:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique endpoint identifier
+        name:
+          type: string
+          description: Endpoint name
+        url:
+          type: string
+          description: GraphQL endpoint URL
+        folder:
+          type: string
+          description: Account folder containing the schema
+        status:
+          type: string
+          enum:
+          - active
+          - deploying
+          - error
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    CreateEndpointRequest:
+      type: object
+      required:
+      - name
+      - folder
+      properties:
+        name:
+          type: string
+          description: Endpoint name
+        folder:
+          type: string
+          description: Schema folder name
+        schema:
+          type: string
+          description: GraphQL SDL schema definition
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    EndpointsListResponse:
+      type: object
+      properties:
+        endpoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/Endpoint'
+        total:
+          type: integer
+  parameters:
+    EndpointId:
+      name: endpointId
+      in: path
+      required: true
+      description: Unique endpoint identifier
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: StepZen API key as Bearer token
