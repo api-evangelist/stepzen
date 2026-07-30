@@ -7,7 +7,20 @@ description: >-
   @rest and @dbquery. StepZen runs a high-performance in-memory Golang GraphQL engine deployed on Kubernetes, optimizing
   queries at runtime for low latency and high throughput.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/stepzen.png
 tags:
 - Backend Integration
 - GraphQL
@@ -23,9 +36,9 @@ apis:
 - aid: stepzen:stepzen-api
   name: StepZen GraphQL API
   description: >-
-    GraphQL API platform for connecting to REST, databases, and other backends, automatically generating a GraphQL
-    schema and resolvers from your data sources. Supports authentication via API key, OAuth, and custom headers.
-    Deployed instances are accessible at account.stepzen.net endpoints.
+    GraphQL API platform for connecting to REST, databases, and other backends, automatically generating
+    a GraphQL schema and resolvers from your data sources. Supports authentication via API key, OAuth,
+    and custom headers. Deployed instances are accessible at account.stepzen.net endpoints.
   humanURL: https://stepzen.com/
   baseURL: https://{account}.stepzen.net/{folder}/{name}/__graphql
   tags:
@@ -49,7 +62,8 @@ apis:
     type: GraphQL
 - aid: stepzen:stepzen-admin-api
   name: StepZen Admin API
-  description: REST API for managing StepZen accounts, deployed GraphQL endpoints, API keys, and usage metrics programmatically.
+  description: >-
+    REST API for managing StepZen accounts, deployed GraphQL endpoints, API keys, and usage metrics programmatically.
   humanURL: https://stepzen.com/docs
   tags:
   - Administration
@@ -58,6 +72,36 @@ apis:
   properties:
   - type: Documentation
     url: https://stepzen.com/docs
+- aid: stepzen:stepzen-account-api
+  name: StepZen Account API
+  description: Account information and settings
+  humanURL: https://stepzen.com/
+  baseURL: https://{account}.stepzen.net/{folder}/{name}/__graphql
+  tags:
+  - Account
+  properties:
+  - type: OpenAPI
+    url: openapi/stepzen-account-api-openapi.yml
+- aid: stepzen:stepzen-api-keys-api
+  name: StepZen API Keys API
+  description: Manage API keys for endpoint access
+  humanURL: https://stepzen.com/
+  baseURL: https://{account}.stepzen.net/{folder}/{name}/__graphql
+  tags:
+  - API Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/stepzen-api-keys-api-openapi.yml
+- aid: stepzen:stepzen-endpoints-api
+  name: StepZen Endpoints API
+  description: Manage deployed GraphQL API endpoints
+  humanURL: https://stepzen.com/
+  baseURL: https://{account}.stepzen.net/{folder}/{name}/__graphql
+  tags:
+  - Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/stepzen-endpoints-api-openapi.yml
 common:
 - type: AgenticAccess
   url: agentic-access/stepzen-agentic-access.yml
