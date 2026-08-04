@@ -1,0 +1,18 @@
+{
+  "provider": "stepzen",
+  "sources": [
+    "stepzen-account-api-openapi.yml",
+    "stepzen-api-keys-api-openapi.yml",
+    "stepzen-endpoints-api-openapi.yml"
+  ],
+  "outputs": [
+    "stepzen-account-api-openapi.yml",
+    "stepzen-api-keys-api-openapi.yml",
+    "stepzen-endpoints-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
