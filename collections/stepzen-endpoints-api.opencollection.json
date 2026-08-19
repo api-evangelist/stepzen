@@ -1,0 +1,90 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "StepZen Admin Account Endpoints API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Endpoints",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Endpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.ibm.stepzen.com/api/v1/endpoints"
+          },
+          "docs": "List all deployed GraphQL API endpoints in the account."
+        },
+        {
+          "info": {
+            "name": "Create Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://dashboard.ibm.stepzen.com/api/v1/endpoints",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deploy a new GraphQL API endpoint from a schema configuration."
+        },
+        {
+          "info": {
+            "name": "Get Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://dashboard.ibm.stepzen.com/api/v1/endpoints/:endpointId",
+            "params": [
+              {
+                "name": "endpointId",
+                "value": "",
+                "type": "path",
+                "description": "Unique endpoint identifier"
+              }
+            ]
+          },
+          "docs": "Retrieve details of a specific deployed endpoint."
+        },
+        {
+          "info": {
+            "name": "Delete Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://dashboard.ibm.stepzen.com/api/v1/endpoints/:endpointId",
+            "params": [
+              {
+                "name": "endpointId",
+                "value": "",
+                "type": "path",
+                "description": "Unique endpoint identifier"
+              }
+            ]
+          },
+          "docs": "Delete a deployed GraphQL endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
