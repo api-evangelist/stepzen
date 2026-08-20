@@ -88,6 +88,8 @@ apis:
   humanURL: https://stepzen.com/
   baseURL: https://{account}.stepzen.net/{folder}/{name}/__graphql
   tags:
+  - APIKeys
+  tags_raw:
   - API Keys
   properties:
   - type: OpenAPI
@@ -97,7 +99,8 @@ apis:
   description: Manage deployed GraphQL API endpoints
   humanURL: https://stepzen.com/
   baseURL: https://{account}.stepzen.net/{folder}/{name}/__graphql
-  tags:
+  tags: []
+  tags_raw:
   - Endpoints
   properties:
   - type: OpenAPI
