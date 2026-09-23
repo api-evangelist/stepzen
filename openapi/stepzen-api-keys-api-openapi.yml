@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: StepZen Admin Account API Keys API
+  title: StepZen Admin API Keys API
   description: The StepZen Admin REST API provides programmatic access to manage your StepZen account, deployed GraphQL endpoints, API keys, schemas, and usage metrics. Endpoints are available at the StepZen management plane.
   version: '1.0'
   contact:
@@ -73,13 +73,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    ApiKeysListResponse:
-      type: object
-      properties:
-        keys:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiKey'
     CreateApiKeyRequest:
       type: object
       required:
@@ -119,6 +112,21 @@ components:
           type: string
         message:
           type: string
+    ApiKeysListResponse:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'
+  parameters:
+    KeyId:
+      name: keyId
+      in: path
+      required: true
+      description: Unique API key identifier
+      schema:
+        type: string
   responses:
     Unauthorized:
       description: Authentication required
@@ -132,14 +140,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    KeyId:
-      name: keyId
-      in: path
-      required: true
-      description: Unique API key identifier
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

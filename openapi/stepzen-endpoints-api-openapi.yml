@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: StepZen Admin Account Endpoints API
+  title: StepZen Admin Endpoints API
   description: The StepZen Admin REST API provides programmatic access to manage your StepZen account, deployed GraphQL endpoints, API keys, schemas, and usage metrics. Endpoints are available at the StepZen management plane.
   version: '1.0'
   contact:
@@ -93,6 +93,33 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    EndpointId:
+      name: endpointId
+      in: path
+      required: true
+      description: Unique endpoint identifier
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Endpoint:
       type: object
@@ -121,6 +148,13 @@ components:
         updatedAt:
           type: string
           format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
     CreateEndpointRequest:
       type: object
       required:
@@ -136,13 +170,6 @@ components:
         schema:
           type: string
           description: GraphQL SDL schema definition
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
     EndpointsListResponse:
       type: object
       properties:
@@ -152,33 +179,6 @@ components:
             $ref: '#/components/schemas/Endpoint'
         total:
           type: integer
-  parameters:
-    EndpointId:
-      name: endpointId
-      in: path
-      required: true
-      description: Unique endpoint identifier
-      schema:
-        type: string
-  responses:
-    BadRequest:
-      description: Invalid request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication required
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

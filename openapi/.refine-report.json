@@ -1,18 +1,24 @@
 {
   "provider": "stepzen",
   "sources": [
-    "stepzen-account-api-openapi.yml",
-    "stepzen-api-keys-api-openapi.yml",
-    "stepzen-endpoints-api-openapi.yml"
+    "_original/stepzen-admin-openapi.yml"
   ],
   "outputs": [
-    "stepzen-account-api-openapi.yml",
     "stepzen-api-keys-api-openapi.yml",
+    "stepzen-account-api-openapi.yml",
     "stepzen-endpoints-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "stepzen-admin-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "stepzen-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "stepzen-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "stepzen-endpoints-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
