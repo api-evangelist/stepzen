@@ -72,53 +72,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  schemas:
-    CreateApiKeyRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: Descriptive name for the API key
-        type:
-          type: string
-          enum:
-          - admin
-          - user
-          default: user
-    ApiKey:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        key:
-          type: string
-          description: The API key value (only shown on creation)
-        type:
-          type: string
-          enum:
-          - admin
-          - user
-        createdAt:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-    ApiKeysListResponse:
-      type: object
-      properties:
-        keys:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiKey'
   parameters:
     KeyId:
       name: keyId
@@ -140,6 +93,53 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    ApiKeysListResponse:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        key:
+          type: string
+          description: The API key value (only shown on creation)
+        type:
+          type: string
+          enum:
+          - admin
+          - user
+        createdAt:
+          type: string
+          format: date-time
+    CreateApiKeyRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Descriptive name for the API key
+        type:
+          type: string
+          enum:
+          - admin
+          - user
+          default: user
   securitySchemes:
     apiKeyAuth:
       type: apiKey
