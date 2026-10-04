@@ -118,6 +118,9 @@ apis:
   - type: OpenAPI
     url: openapi/stepzen-endpoints-api-openapi.yml
 common:
+- type: CapabilityMap
+  url: capabilities/stepzen-capability-edges.yml
+  name: StepZen Business Capability Map
 - type: AgenticAccess
   url: agentic-access/stepzen-agentic-access.yml
 - type: DomainSecurity
