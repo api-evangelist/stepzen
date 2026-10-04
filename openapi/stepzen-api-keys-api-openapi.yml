@@ -72,6 +72,19 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     KeyId:
       name: keyId
@@ -81,27 +94,6 @@ components:
       schema:
         type: string
   schemas:
-    ApiKeysListResponse:
-      type: object
-      properties:
-        keys:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiKey'
-    CreateApiKeyRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: Descriptive name for the API key
-        type:
-          type: string
-          enum:
-          - admin
-          - user
-          default: user
     Error:
       type: object
       properties:
@@ -109,6 +101,13 @@ components:
           type: string
         message:
           type: string
+    ApiKeysListResponse:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'
     ApiKey:
       type: object
       properties:
@@ -127,19 +126,20 @@ components:
         createdAt:
           type: string
           format: date-time
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication required
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    CreateApiKeyRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Descriptive name for the API key
+        type:
+          type: string
+          enum:
+          - admin
+          - user
+          default: user
   securitySchemes:
     apiKeyAuth:
       type: apiKey
