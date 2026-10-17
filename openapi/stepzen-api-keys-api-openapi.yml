@@ -72,27 +72,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication required
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    KeyId:
-      name: keyId
-      in: path
-      required: true
-      description: Unique API key identifier
-      schema:
-        type: string
   schemas:
     Error:
       type: object
@@ -101,6 +80,20 @@ components:
           type: string
         message:
           type: string
+    CreateApiKeyRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Descriptive name for the API key
+        type:
+          type: string
+          enum:
+          - admin
+          - user
+          default: user
     ApiKeysListResponse:
       type: object
       properties:
@@ -126,20 +119,27 @@ components:
         createdAt:
           type: string
           format: date-time
-    CreateApiKeyRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: Descriptive name for the API key
-        type:
-          type: string
-          enum:
-          - admin
-          - user
-          default: user
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    KeyId:
+      name: keyId
+      in: path
+      required: true
+      description: Unique API key identifier
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey
